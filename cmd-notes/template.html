@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PROJECT_NAME}} · 命令速记</title>
+<style>
+  :root {
+    /* Bright theme — Notion/Linear-light inspired */
+    --bg: #fbfcfd;
+    --bg-soft: #f5f7fa;
+    --panel: #ffffff;
+    --panel-2: #f8f9fb;
+    --border: #e4e8ef;
+    --border-strong: #d0d7de;
+    --text: #1a1f2c;
+    --text-muted: #4a5160;
+    --text-dim: #7681a0;
+
+    --c-blue: #2563eb;
+    --c-blue-soft: #dbeafe;
+    --c-cyan: #0891b2;
+    --c-green: #059669;
+    --c-green-soft: #d1fae5;
+    --c-purple: #7c3aed;
+    --c-pink: #db2777;
+    --c-orange: #ea580c;
+    --c-orange-soft: #ffedd5;
+    --c-yellow: #ca8a04;
+    --c-red: #dc2626;
+
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 2px 8px rgba(15, 23, 42, 0.06);
+    --shadow-lg: 0 8px 24px rgba(15, 23, 42, 0.10);
+    --radius: 10px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 14px;
+  }
+  code, pre, .mono {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  /* Header */
+  header {
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px 16px;
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .header-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .header-row h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    flex: 1;
+  }
+  .header-row h1 .icon {
+    color: var(--c-blue);
+    margin-right: 8px;
+  }
+  .header-meta {
+    max-width: 1200px;
+    margin: 6px auto 0;
+    color: var(--text-dim);
+    font-size: 12px;
+    font-family: ui-monospace, monospace;
+  }
+  .header-meta span.dot { margin: 0 8px; color: var(--border-strong); }
+
+  .btn {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    transition: all 0.15s;
+  }
+  .btn:hover { border-color: var(--border-strong); background: var(--panel-2); }
+  .btn-primary {
+    background: var(--c-blue);
+    border-color: var(--c-blue);
+    color: white;
+  }
+  .btn-primary:hover { background: #1d4ed8; border-color: #1d4ed8; }
+  .btn-icon {
+    background: transparent;
+    border: none;
+    padding: 4px 6px;
+    border-radius: 4px;
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+  .btn-icon:hover { background: var(--bg-soft); color: var(--text); }
+  .btn-icon.danger:hover { color: var(--c-red); background: #fee2e2; }
+
+  /* Main */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 32px 60px;
+  }
+
+  /* Search & filter */
+  .toolbar {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .search-box {
+    width: 100%;
+    padding: 10px 14px 10px 38px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-size: 14px;
+    color: var(--text);
+    transition: border-color 0.15s, background 0.15s;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%237681a0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>");
+    background-repeat: no-repeat;
+    background-position: 12px center;
+  }
+  .search-box:focus {
+    outline: none;
+    border-color: var(--c-blue);
+    background-color: var(--panel);
+  }
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+    align-items: center;
+  }
+  .tag-row .label {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-right: 4px;
+  }
+  .tag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tag-chip:hover {
+    border-color: var(--c-blue);
+    color: var(--c-blue);
+  }
+  .tag-chip.active {
+    background: var(--c-blue);
+    border-color: var(--c-blue);
+    color: white;
+  }
+  .tag-chip .count {
+    font-size: 10px;
+    opacity: 0.7;
+    margin-left: 2px;
+  }
+  .tag-clear {
+    color: var(--c-red);
+    font-size: 11px;
+    cursor: pointer;
+    margin-left: 4px;
+    background: transparent;
+    border: none;
+  }
+
+  /* Notes list */
+  .notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .note-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.15s;
+  }
+  .note-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-strong);
+  }
+  .note-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .note-title {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.4;
+  }
+  .note-title::before {
+    content: '📌';
+    margin-right: 6px;
+    font-size: 14px;
+  }
+  .note-actions {
+    display: flex;
+    gap: 2px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .note-card:hover .note-actions { opacity: 1; }
+
+  .note-cmd-wrap {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .note-cmd {
+    flex: 1;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 13px;
+    color: var(--c-blue);
+    word-break: break-all;
+    line-height: 1.5;
+  }
+  .copy-btn {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: var(--text-dim);
+    font-size: 12px;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .copy-btn:hover {
+    border-color: var(--c-blue);
+    color: var(--c-blue);
+  }
+  .copy-btn.copied {
+    background: var(--c-green-soft);
+    border-color: var(--c-green);
+    color: var(--c-green);
+  }
+  .note-desc {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin: 6px 0 12px;
+    line-height: 1.55;
+  }
+  .note-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .note-meta .tag {
+    background: var(--c-blue-soft);
+    color: var(--c-blue);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .note-meta .meta-sep {
+    margin: 0 4px;
+    color: var(--border-strong);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-dim);
+  }
+  .empty-state .big-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+    opacity: 0.4;
+  }
+  .empty-state p { margin: 6px 0; }
+
+  /* Modal */
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop.show { display: flex; }
+  .modal {
+    background: var(--panel);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    width: 90%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+  }
+  .modal-header h2 {
+    margin: 0;
+    font-size: 17px;
+    flex: 1;
+  }
+  .modal-body {
+    padding: 20px 24px;
+  }
+  .modal-footer {
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .form-group label .req { color: var(--c-red); }
+  .form-group input, .form-group textarea {
+    width: 100%;
+    padding: 9px 12px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text);
+    font-family: inherit;
+  }
+  .form-group input:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--c-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+  .form-group textarea {
+    resize: vertical;
+    min-height: 60px;
+    font-family: ui-monospace, monospace;
+  }
+  .form-group textarea#field-cmd {
+    color: var(--c-blue);
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--text);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    box-shadow: var(--shadow-lg);
+    z-index: 200;
+    transition: transform 0.3s, opacity 0.3s;
+    opacity: 0;
+  }
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+  .toast.success { background: var(--c-green); }
+  .toast.error { background: var(--c-red); }
+
+  /* Save indicator */
+  .save-status {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-left: 8px;
+  }
+  .save-status.dirty { color: var(--c-orange); }
+  .save-status.saved { color: var(--c-green); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-row">
+    <h1><span class="icon">📒</span><span id="hdr-project">{{PROJECT_NAME}}</span> · 命令速记</h1>
+    <span class="save-status" id="save-status"></span>
+    <button class="btn" onclick="openModal()">➕ 新增</button>
+    <button class="btn btn-primary" onclick="saveToFile()">💾 保存</button>
+  </div>
+  <div class="header-meta">
+    <span id="hdr-path">{{PROJECT_PATH}}</span>
+    <span class="dot">·</span>
+    <span id="hdr-count">0 条命令</span>
+  </div>
+</header>
+
+<main>
+  <div class="toolbar">
+    <input type="text" class="search-box" id="search" placeholder="搜索 标题 / 命令 / 说明..." oninput="render()">
+    <div class="tag-row" id="tag-row">
+      <span class="label">标签:</span>
+    </div>
+  </div>
+
+  <div class="notes-list" id="notes-list"></div>
+</main>
+
+<!-- Edit/Add Modal -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modal-title">新增命令</h2>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="field-id">
+      <div class="form-group">
+        <label>标题 <span class="req">*</span></label>
+        <input type="text" id="field-title" placeholder="例: 进入检测容器">
+      </div>
+      <div class="form-group">
+        <label>命令 <span class="req">*</span></label>
+        <textarea id="field-cmd" placeholder="例: docker exec -it det_docker bash"></textarea>
+      </div>
+      <div class="form-group">
+        <label>说明</label>
+        <textarea id="field-desc" placeholder="什么时候用 / 解决什么问题"></textarea>
+      </div>
+      <div class="form-group">
+        <label>标签 (逗号分隔)</label>
+        <input type="text" id="field-tags" placeholder="docker, debug">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">取消</button>
+      <button class="btn btn-primary" onclick="saveNote()">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="application/json" id="cmd-notes-data">
+{{NOTES_JSON}}
+</script>
+
+<script>
+// ─── State ───────────────────────────────────────────────────────────
+let DATA = JSON.parse(document.getElementById('cmd-notes-data').textContent.trim());
+let activeTags = new Set();
+let dirty = false;
+let fileHandle = null;  // File System Access API handle
+
+// ─── Utilities ───────────────────────────────────────────────────────
+function uid() {
+  const ts = new Date().toISOString().replace(/[:.\-T]/g, '').slice(0, 14);
+  const rand = Math.random().toString(36).substring(2, 6);
+  return `${ts}-${rand}`;
+}
+function nowIso() { return new Date().toISOString(); }
+function fmtTime(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  const today = new Date();
+  if (d.toDateString() === today.toDateString()) {
+    return d.toTimeString().slice(0, 5);
+  }
+  return iso.slice(5, 10) + ' ' + iso.slice(11, 16);
+}
+function escapeHtml(s) {
+  if (!s) return '';
+  return s.replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[c]);
+}
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.className = 'toast ' + type, 2000);
+}
+function markDirty() {
+  dirty = true;
+  document.getElementById('save-status').textContent = '● 未保存';
+  document.getElementById('save-status').className = 'save-status dirty';
+}
+function markClean() {
+  dirty = false;
+  document.getElementById('save-status').textContent = '✓ 已保存';
+  document.getElementById('save-status').className = 'save-status saved';
+}
+
+// ─── Tag aggregation ─────────────────────────────────────────────────
+function tagCounts() {
+  const counts = {};
+  DATA.notes.forEach(n => {
+    (n.tags || []).forEach(t => {
+      counts[t] = (counts[t] || 0) + 1;
+    });
+  });
+  return counts;
+}
+
+function renderTagFilter() {
+  const counts = tagCounts();
+  const row = document.getElementById('tag-row');
+  // Keep label, clear rest
+  const items = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  let html = '<span class="label">标签:</span>';
+  items.forEach(([tag, count]) => {
+    const active = activeTags.has(tag) ? 'active' : '';
+    html += `<span class="tag-chip ${active}" onclick="toggleTag('${escapeHtml(tag)}')">#${escapeHtml(tag)} <span class="count">${count}</span></span>`;
+  });
+  if (activeTags.size > 0) {
+    html += `<button class="tag-clear" onclick="clearTags()">× 清除</button>`;
+  }
+  row.innerHTML = html;
+}
+
+function toggleTag(tag) {
+  if (activeTags.has(tag)) activeTags.delete(tag);
+  else activeTags.add(tag);
+  render();
+}
+function clearTags() {
+  activeTags.clear();
+  render();
+}
+
+// ─── Filter & sort ───────────────────────────────────────────────────
+function filteredNotes() {
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  let list = DATA.notes.slice();
+  if (q) {
+    list = list.filter(n =>
+      (n.title || '').toLowerCase().includes(q) ||
+      (n.command || '').toLowerCase().includes(q) ||
+      (n.description || '').toLowerCase().includes(q)
+    );
+  }
+  if (activeTags.size > 0) {
+    list = list.filter(n =>
+      [...activeTags].every(t => (n.tags || []).includes(t))
+    );
+  }
+  // Sort by updated_at desc
+  list.sort((a, b) => (b.updated_at || '').localeCompare(a.updated_at || ''));
+  return list;
+}
+
+// ─── Render notes ────────────────────────────────────────────────────
+function render() {
+  document.getElementById('hdr-project').textContent = DATA.project || 'Project';
+  document.getElementById('hdr-path').textContent = DATA.project_root || '';
+  document.getElementById('hdr-count').textContent = `${DATA.notes.length} 条命令`;
+  renderTagFilter();
+
+  const list = filteredNotes();
+  const container = document.getElementById('notes-list');
+  if (list.length === 0) {
+    if (DATA.notes.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="big-icon">📝</div>
+          <p>还没有命令速记</p>
+          <p style="font-size:12px;">点击「➕ 新增」记录你的第一条命令</p>
+        </div>`;
+    } else {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="big-icon">🔍</div>
+          <p>没有匹配的命令</p>
+        </div>`;
+    }
+    return;
+  }
+
+  container.innerHTML = list.map(n => `
+    <div class="note-card">
+      <div class="note-header">
+        <h3 class="note-title">${escapeHtml(n.title || '(无标题)')}</h3>
+        <div class="note-actions">
+          <button class="btn-icon" onclick="editNote('${n.id}')" title="编辑">✏️</button>
+          <button class="btn-icon danger" onclick="deleteNote('${n.id}')" title="删除">🗑</button>
+        </div>
+      </div>
+      <div class="note-cmd-wrap">
+        <div class="note-cmd">${escapeHtml(n.command || '')}</div>
+        <button class="copy-btn" onclick="copyCmd(this, ${JSON.stringify(n.command || '').replace(/"/g, '&quot;')})">📋 复制</button>
+      </div>
+      ${n.description ? `<div class="note-desc">${escapeHtml(n.description)}</div>` : ''}
+      <div class="note-meta">
+        ${(n.tags || []).map(t => `<span class="tag">#${escapeHtml(t)}</span>`).join('')}
+        ${(n.tags || []).length > 0 ? '<span class="meta-sep">·</span>' : ''}
+        <span>${fmtTime(n.updated_at)}</span>
+        ${n.cwd && n.cwd !== DATA.project_root ? `<span class="meta-sep">·</span><span class="mono">${escapeHtml(n.cwd.split('/').pop())}/</span>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── Copy ────────────────────────────────────────────────────────────
+function copyCmd(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    btn.textContent = '✓ 已复制';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.textContent = '📋 复制';
+    }, 1500);
+  }).catch(() => showToast('复制失败', 'error'));
+}
+
+// ─── Modal ───────────────────────────────────────────────────────────
+function openModal(noteId) {
+  const modal = document.getElementById('modal');
+  if (noteId) {
+    const note = DATA.notes.find(n => n.id === noteId);
+    if (!note) return;
+    document.getElementById('modal-title').textContent = '编辑命令';
+    document.getElementById('field-id').value = note.id;
+    document.getElementById('field-title').value = note.title || '';
+    document.getElementById('field-cmd').value = note.command || '';
+    document.getElementById('field-desc').value = note.description || '';
+    document.getElementById('field-tags').value = (note.tags || []).join(', ');
+  } else {
+    document.getElementById('modal-title').textContent = '新增命令';
+    document.getElementById('field-id').value = '';
+    document.getElementById('field-title').value = '';
+    document.getElementById('field-cmd').value = '';
+    document.getElementById('field-desc').value = '';
+    document.getElementById('field-tags').value = '';
+  }
+  modal.classList.add('show');
+  setTimeout(() => document.getElementById('field-title').focus(), 50);
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+}
+
+function saveNote() {
+  const id = document.getElementById('field-id').value;
+  const title = document.getElementById('field-title').value.trim();
+  const command = document.getElementById('field-cmd').value.trim();
+  const description = document.getElementById('field-desc').value.trim();
+  const tagsStr = document.getElementById('field-tags').value.trim();
+  const tags = tagsStr ? tagsStr.split(',').map(t => t.trim()).filter(Boolean) : [];
+
+  if (!title || !command) {
+    showToast('标题和命令不能为空', 'error');
+    return;
+  }
+
+  if (id) {
+    // Update existing
+    const note = DATA.notes.find(n => n.id === id);
+    if (note) {
+      note.title = title;
+      note.command = command;
+      note.description = description;
+      note.tags = tags;
+      note.updated_at = nowIso();
+    }
+  } else {
+    // Add new
+    DATA.notes.push({
+      id: uid(),
+      title,
+      command,
+      description,
+      tags,
+      cwd: DATA.project_root,
+      created_at: nowIso(),
+      updated_at: nowIso(),
+    });
+  }
+  closeModal();
+  markDirty();
+  render();
+  showToast(id ? '已更新（记得点保存写入文件）' : '已添加（记得点保存写入文件）', 'success');
+}
+
+function editNote(id) { openModal(id); }
+function deleteNote(id) {
+  const note = DATA.notes.find(n => n.id === id);
+  if (!note) return;
+  if (!confirm(`确认删除「${note.title}」?`)) return;
+  DATA.notes = DATA.notes.filter(n => n.id !== id);
+  markDirty();
+  render();
+  showToast('已删除（记得点保存写入文件）');
+}
+
+// ─── Save to file ────────────────────────────────────────────────────
+function buildHtml() {
+  // Replace the JSON in current document, return full HTML
+  const newJson = JSON.stringify(DATA, null, 2);
+  const html = document.documentElement.outerHTML;
+  return html.replace(
+    /<script type="application\/json" id="cmd-notes-data">[\s\S]*?<\/script>/,
+    `<script type="application/json" id="cmd-notes-data">\n${newJson}\n</script>`
+  );
+}
+
+async function saveToFile() {
+  const html = '<!DOCTYPE html>\n' + buildHtml();
+  // Try File System Access API first
+  if ('showSaveFilePicker' in window) {
+    try {
+      if (!fileHandle) {
+        // First time: ask user to pick file location (default to current file)
+        const url = window.location.href;
+        const filename = url.split('/').pop() || 'cmd_notes.html';
+        fileHandle = await window.showSaveFilePicker({
+          suggestedName: filename,
+          types: [{ description: 'HTML File', accept: { 'text/html': ['.html'] } }],
+        });
+      }
+      const writable = await fileHandle.createWritable();
+      await writable.write(html);
+      await writable.close();
+      markClean();
+      showToast('已写入文件 ✓', 'success');
+      return;
+    } catch (e) {
+      if (e.name !== 'AbortError') {
+        console.error(e);
+        showToast('写入失败，已退化为下载', 'error');
+      } else {
+        return;
+      }
+    }
+  }
+  // Fallback: download
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = window.location.pathname.split('/').pop() || 'cmd_notes.html';
+  a.click();
+  URL.revokeObjectURL(url);
+  markClean();
+  showToast('已下载，请覆盖原文件', 'success');
+}
+
+// ─── Keyboard shortcuts ──────────────────────────────────────────────
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault();
+    saveToFile();
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    document.getElementById('search').focus();
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+    e.preventDefault();
+    openModal();
+  }
+});
+
+// Click backdrop to close modal
+document.getElementById('modal').addEventListener('click', (e) => {
+  if (e.target.id === 'modal') closeModal();
+});
+
+// Warn before unload if dirty
+window.addEventListener('beforeunload', (e) => {
+  if (dirty) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
+
+// Initial render
+render();
+</script>
+
+</body>
+</html>
