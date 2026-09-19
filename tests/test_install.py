@@ -23,7 +23,7 @@ class InstallerIntegrationTests(unittest.TestCase):
         self.stdout = io.StringIO()
         self.stdout_redirect = redirect_stdout(self.stdout)
         self.stdout_redirect.__enter__()
-        self.skills = sorted(path for path in ROOT.iterdir() if (path / "SKILL.md").is_file())
+        self.skills = sorted(path for path in (ROOT / "skills").iterdir() if (path / "SKILL.md").is_file())
         self.enabled = set(json.loads((ROOT / "config/codex/enabled-skills.json").read_text()))
 
     def tearDown(self):
@@ -35,6 +35,10 @@ class InstallerIntegrationTests(unittest.TestCase):
 
     def test_empty_home_installs_clients_skills_roles_and_parseable_configs(self):
         self.install()
+
+        self.assertTrue(self.skills)
+        for directory in (self.home / ".agents/skills", self.home / ".claude/skills"):
+            self.assertEqual({p.name for p in directory.iterdir()}, {p.name for p in self.skills})
 
         settings_path = self.home / ".claude/settings.json"
         config_path = self.home / ".codex/config.toml"

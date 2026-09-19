@@ -1,6 +1,7 @@
 # Claude Code + Codex 跨电脑配置
 
 本目录保存可迁移配置；根目录 `install.sh` 同时配置两个客户端。
+启用的技能放在 `skills/`，本机已关闭的技能暂存在 `skills-disabled/`，安装器只链接 `skills/` 中的技能目录；`config/`、`scripts/` 和 `tests/` 不会被安装成技能。
 支持 Linux、macOS、Windows WSL；不支持 Windows 原生 PowerShell 安装。
 客户端和账号需事先准备：脚本不安装 Claude Code/Codex 二进制，也不复制登录状态。
 
@@ -20,6 +21,8 @@ git -C "$HOME/.local/share/claude-skills" pull --ff-only && bash "$HOME/.local/s
 ```
 
 请把仓库保留在稳定位置：技能通过软链接使用仓库内容。不要克隆到临时目录后安装再删除仓库。
+推荐将整个仓库放在 `~/.local/share/claude-skills`，不要直接放在 `~/.claude/skills`。
+若旧电脑已经把技能目录当作 Git 仓库，请先保留其中未提交的修改，再在独立位置准备新仓库并安装；本脚本不会自动迁移旧 checkout。
 安装器不修改原来的技能仓库 checkout；更新遇到本地改动时，由 Git 正常报错，不会 reset。
 
 预览（不改目标配置；shell 入口可能先创建安装器环境并下载 tomlkit）：
@@ -69,7 +72,7 @@ Manager 已有安装器负责自己的依赖下载。其失败会让本命令返
 | Codex 权限 | 新电脑默认 on-request + workspace-write；本机的 danger-full-access 不直接复制。已有目标电脑设置保持不变。 |
 | Claude 设置 | 新配置默认 opus；保留已有设置。 |
 | 本地未提交技能 | 加入 agent-reach、brainstorming、desktop-app-design、domain-modeling、grill-me、grill-with-docs、grilling、handoff、tdd；补齐 Graphviz 依赖 domain-variable-explainer。同步本地 Graphviz 技能修改。 |
-| 技能启用选择 | Codex 默认启用 `codex/enabled-skills.json` 中的 7 项；其余仓库技能安装但禁用。Claude 安装全部仓库技能，遵循其已有启用设置。 |
+| 技能启用选择 | Codex 默认启用 `codex/enabled-skills.json` 中的 7 项；关闭的技能暂存在 `skills-disabled/`，不安装。Claude 同样只安装 `skills/` 中的技能，遵循其已有启用设置。 |
 | `claude-manager` hooks / wrapper | 可选调用其安装器，不复制本机带绝对路径的 hooks 配置。 |
 
 Luna 配置源自本机；Codex 配置已用本机 CLI 0.155.1 的 strict-config 检查。
@@ -88,7 +91,7 @@ Claude 使用自己的默认子代理能力，本机没有 `~/.claude/agents/` �
 - TOML 尽量保留注释，现有 provider、MCP、项目与其他字段保持原值；模板仅补缺失设置。
 - 全局指令以 `claude-skills managed` 标记块追加/更新，保留块外内容。已有同义规则不会自动删除。
 - 两个 Luna 角色文件由本仓库管理，同名文件先备份再更新。
-- 技能链接到 `~/.claude/skills/<name>` 和 `~/.agents/skills/<name>`；同名本地目录先备份再替换。
+- `skills/` 中的技能链接到 `~/.claude/skills/<name>` 和 `~/.agents/skills/<name>`；同名本地目录先备份再替换。
 - Codex 只更新上述规范路径的启用项。旧电脑如另有技能副本或自定义启用列表，不自动删除。
 - 自定义 `CODEX_HOME` 暂不支持；请取消该覆盖后安装到默认 `~/.codex`。
 - 核心安装重复运行不会重复插入规则、技能项或无变化的备份；可选 Manager 部分遵循上游安装器行为，每次调用前另做备份。

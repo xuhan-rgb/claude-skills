@@ -103,7 +103,7 @@ def configure(inst):
     merge_defaults(settings, json.loads((REPO / 'config/claude/defaults.json').read_text()))
     enabled = set(json.loads((REPO / 'config/codex/enabled-skills.json').read_text()))
     entries = cfg.setdefault('skills', {}).setdefault('config', [])
-    skills = sorted(p for p in REPO.iterdir() if (p / 'SKILL.md').is_file())
+    skills = sorted(p for p in (REPO / 'skills').iterdir() if (p / 'SKILL.md').is_file())
     for skill in skills:
         # Codex uses the shared skills directory; Claude uses its own search path.
         canonical = home / '.agents/skills' / skill.name
