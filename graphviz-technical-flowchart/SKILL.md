@@ -65,6 +65,17 @@ Keep an ordinary node to roughly three or four lines:
 3. important interface, state, or shape
 4. optional scope/config qualification
 
+When cross-module signal provenance is important, prefer a four-line processing-node contract:
+
+1. component name
+2. `输入：` important incoming variables or interface
+3. `处理：` the transformation, decision, or state update
+4. `输出：` important outgoing variables or interface
+
+Do not apply this mechanically. If a module only filters, gates, synchronizes, or forwards the same clearly named signal,
+combine the repeated input/output wording and state only the information that changes. State/decision ellipses may describe
+entry conditions and results instead of forcing an input/process/output template.
+
 Use the user's language for ordinary prose. Preserve proper nouns, code/API identifiers, standard abbreviations,
 mathematical symbols, and units. Do not leave generic foreign-language boilerplate when a natural user-language label
 exists.
@@ -79,6 +90,17 @@ Annotate only important interfaces:
 Use symbolic dynamic dimensions and mark fixed values as configuration-specific. Put central variable definitions inside
 the node; put shared definitions in a nearby regional note, one symbol-to-meaning mapping per line. A global legend is for
 edge styles and truly global conventions, not the sole explanation of local notation.
+
+With `splines=ortho`, keep edge text to a short interface identifier such as a field name, type, or unit. Do not put a
+formula, transformation, sentence, or repeated source/target description in `label` or `xlabel`; place it inside the
+consumer node or a nearby note instead. If the connected nodes already establish the interface unambiguously, leave the
+edge unlabeled. This prevents Graphviz from placing long external labels over nodes, arrows, or cluster titles.
+
+Prefer node contracts over edge text for short links and for consumers with several incoming edges. Label only a genuinely
+long connection whose source would otherwise be hard to trace, and keep that label to one line of exact output identifiers
+near the consumer end. Do not insert visible proxy/input-interface boxes solely to carry labels unless the user explicitly
+requests that notation. If a long-line label overlaps anything after rendering, remove it and rely on the consumer's
+`输入：` line; readability takes priority over labeling every edge.
 
 ### 4. Separate execution scopes
 
@@ -137,6 +159,12 @@ Check:
 - runtime/offline/training/optional/error separation
 - unnecessary crossings or edges entering the wrong cluster
 - overlap, clipping, whitespace, font size, and cluster-title readability
+- every edge label at the affected region: no text may touch or cover a node border, node text, arrowhead, another edge
+  label, or cluster title; inspect a native-resolution crop when the full graph scales text down
+- every affected rectangular processing node states its input, processing, and output, or has an intentional documented
+  omission because the same signal passes through unchanged in meaning
+- long-line labels are single-line output identifiers; short edges and crowded multi-input consumers do not repeat the
+  node contract
 - interface and variable-annotation accuracy
 - legend consistency and absence of stale removed content
 
@@ -151,8 +179,9 @@ Use the project's established convention when one exists; otherwise:
 - gray dashed: offline, reference, or non-mutating dependency
 - purple dashed: optional or auxiliary branch
 
-Explain each used style once and remove unused legend entries. Keep edge labels short; orthogonal routing handles ordinary
-edge labels poorly, so prefer node text when a label does not clarify execution order.
+Explain each used style once and remove unused legend entries. Keep edge labels to short identifiers; orthogonal routing
+handles labels poorly. Move long or repeated edge text into the consumer node, and remove any edge label that overlaps
+the rendered graph rather than trying to fix it with spacing alone.
 
 ## Target medium
 

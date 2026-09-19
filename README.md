@@ -1,6 +1,21 @@
 # Claude Code Skills
 
-个人 Claude Code 技能集，包含 23 个自定义 Skills，用于增强 AI 辅助开发体验。
+个人 Claude Code / Codex 技能与可迁移配置集。
+
+## 一键配置 Claude Code 和 Codex
+
+在新电脑准备 Git、Python 3.9+（含 venv/pip，或已有 uv）和两个客户端后执行：
+
+```bash
+git clone git@github.com:xuhan-rgb/claude-skills.git "$HOME/.local/share/claude-skills" && bash "$HOME/.local/share/claude-skills/install.sh"
+```
+
+安装共享规则、仓库技能和 Codex Luna 子代理；已有配置先备份并合并，不复制账号密钥。
+Linux 上同时安装 Claude Manager / Kitty 增强时，在命令末尾加 `--with-manager`（需 uv 和 Kitty）。
+该选项会应用 Manager 的完整 Kitty 配置，默认命令不会改终端设置。
+
+详见 [跨电脑配置说明、配置清单和备份恢复](config/README.md)。
+以下技能目录是原有分类索引，完整安装集合由各目录的 `SKILL.md` 自动发现。
 
 ## 📚 Skills 目录
 
