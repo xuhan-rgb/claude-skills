@@ -10,7 +10,7 @@
 git clone git@github.com:xuhan-rgb/claude-skills.git "$HOME/.local/share/claude-skills" && bash "$HOME/.local/share/claude-skills/install.sh"
 ```
 
-安装共享规则、`skills/` 下的 7 个启用技能和 Codex Luna 子代理；已有配置先备份并合并，不复制账号密钥。
+安装共享规则、`skills/` 下的 8 个启用技能和 Codex Luna 子代理；已有配置先备份并合并，不复制账号密钥。
 Linux 上同时安装 Claude Manager / Kitty 增强时，在命令末尾加 `--with-manager`（需 uv 和 Kitty）。
 该选项会应用 Manager 的完整 Kitty 配置，默认命令不会改终端设置。
 
@@ -71,7 +71,7 @@ bash install.sh
 
 ## 默认启用的技能
 
-安装脚本只安装 `skills/` 中的 7 个技能，Claude 和 Codex 共用这些技能文件：
+安装脚本只安装 `skills/` 中的 8 个技能，Claude 和 Codex 共用这些技能文件：
 
 | 技能 | 用途 |
 |---|---|
@@ -81,7 +81,11 @@ bash install.sh
 | [domain-variable-explainer](skills/domain-variable-explainer/) | 解释变量、张量维度和专业符号 |
 | [graphviz-technical-flowchart](skills/graphviz-technical-flowchart/) | 绘制技术流程图和架构图 |
 | [grilling](skills/grilling/) | 追问、检查方案漏洞 |
+| [jev-delegation](skills/jev-delegation/) | 手动调用 Jev 进行任务路由与 Luna 委派 |
 | [tdd](skills/tdd/) | 测试驱动开发 |
+
+`jev-delegation` 只提供可手动调用的工作规则。Jev 的 hook、dispatcher 和执行脚本属于
+独立的本地工程，不会由这个技能仓库自动安装或修改 Codex hook。
 
 本机 Codex 已关闭的 35 个技能放在 [skills-disabled/](skills-disabled/README.md) 暂存，不删除，也不随脚本安装。
 要恢复某个技能：把目录移回 `skills/`，需要在 Codex 启用时再将目录名加入
